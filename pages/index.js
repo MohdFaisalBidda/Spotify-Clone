@@ -1,14 +1,16 @@
+import Center from "@/Components/Center";
 import Sidebar from "@/Components/Sidebar";
 
 export default function Home() {
   return (
     <>
-      <main className=" bg-black h-screen overflow-hidden">
-        <div className="">
+      <main className=" bg-black h-screen overflow-hidden flex">
           <Sidebar />
-        </div>
-
+          <Center/>
       </main>
+      <div className="">
+        {/* Bottom */}
+      </div>
     </>
   )
 }
