@@ -7,14 +7,14 @@ async function refreshAccessToken(token) {
         spotifyApi.setAccessToken(token.accessToken)
         spotifyApi.setRefreshToken(token.refreshToken)
 
-        const { body: refreshToken } = await spotifyApi.refreshAccessToken();
-        console.log("Refresh Token is ", refreshToken);
+        const { body: refreshedToken } = await spotifyApi.refreshAccessToken();
+        console.log("Refresh Token is ", refreshedToken);
 
         return {
             ...token,
-            accessToken: refreshToken.access_token,
-            accessTokenExpires: Date.now() + refreshAccessToken.expires_at * 1000,
-            refreshToken: refreshToken.refresh_token ?? token.refreshToken
+            accessToken: refreshedToken.access_token,
+            accessTokenExpires: Date.now() + refreshedToken.expires_in * 1000,
+            refreshToken: refreshedToken.refresh_token ?? token.refreshToken
         }
 
     } catch (error) {
@@ -26,31 +26,34 @@ async function refreshAccessToken(token) {
     }
 }
 
-export const authOptions = ({
+export default NextAuth({
     // Configure one or more authentication providers
     providers: [
         SpotifyProvider({
             clientId: process.env.CLIENT_ID,
             clientSecret: process.env.CLIENT_SECRET,
-            authorization: LOGIN_URL
+            authorization: LOGIN_URL,
         }),
         // ...add more providers here
     ],
+    session: {
+        strategy: "jwt",
+      },
     secret: process.env.JWT_SECRET,
     pages: {
         signin: '/login'
     },
-    callback: {
+    callbacks: {
         async jwt({ token, account, user }) {
-
+            console.log("hello")
             //intial sign in
             if (account && user) {
                 return {
                     ...token,
-                    accessToken: account.accessToken,
-                    refreshToken: account.refreshToken,
+                    accessToken: account.access_token,
+                    refreshToken: account.refresh_token,
                     username: account.providerAccountID,
-                    accessTokenExpires: account.expires_at * 1000
+                    accessTokenExpires: account.expires_at * 1000,
                 }
             }
 
@@ -59,13 +62,13 @@ export const authOptions = ({
                 return token;
             }
 
-            return refreshAccessToken(token)
+            return await refreshAccessToken(token)
         },
         async session({ session, token }) {
+            
             session.user.accessToken = token.accessToken,
             session.user.refreshToken = token.refreshToken,
             session.user.username = token.username
-
             return session;
         }
 
@@ -73,4 +76,3 @@ export const authOptions = ({
     }
 });
 
-export default NextAuth(authOptions)

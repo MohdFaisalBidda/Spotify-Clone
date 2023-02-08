@@ -1,5 +1,6 @@
 import Center from "@/Components/Center";
 import Sidebar from "@/Components/Sidebar";
+import { useSession } from "next-auth/react";
 
 export default function Home() {
   return (
