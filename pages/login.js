@@ -3,7 +3,6 @@ import { getProviders, signIn } from "next-auth/react"
 
 
 function Login({ providers }) {
-    // console.log(providers);
     return (
         <div className='flex flex-col justify-center items-center h-screen bg-black'>
             <img src="https://i.imgur.com/fPuEa9V.png" className='w-40'/>
