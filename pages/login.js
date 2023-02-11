@@ -8,7 +8,8 @@ function Login({ providers }) {
             <img src="https://i.imgur.com/fPuEa9V.png" className='w-40'/>
             {Object.values(providers).map((provider) => (
                 <div key={provider.name}>
-                    <button className='bg-green-400 p-5 rounded-full text-sm font-bold text-white mt-4 hover:bg-green-600 duration-150' onClick={()=>{
+                    <button className='bg-green-400 p-5 rounded-full text-sm font-bold text-white mt-4 hover:bg-green-600 duration-150' onClick={(e)=>{
+                        e.preventDefault()
                         signIn(provider.id,{callbackUrl:"/"})
                     }}>Login with {provider.name}</button>
 
