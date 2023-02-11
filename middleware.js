@@ -18,7 +18,7 @@ export async function middleware(req) {
   // }
 
   if (!token && pathname !== "/login") {
-    return NextResponse.redirect("http://localhost:3000/login", pathname)
+    return NextResponse.redirect(`${process.env.NEXTAUTH_URL}/login`, pathname)
   }
 
 }

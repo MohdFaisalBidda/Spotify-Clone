@@ -1,20 +1,21 @@
 import Center from "@/Components/Center";
 import Player from "@/Components/Player";
 import Sidebar from "@/Components/Sidebar";
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 
 export default function Home() {
   return (
-    <><div className="bg-black">
+    <>
+      <div className="bg-black h-screen overflow-hidden ">
 
-      <main className=" bg-black h-screen overflow-hidden flex">
-        <Sidebar />
-        <Center />
-        <div className=" fixed bottom-0">
+        <main className="flex">
+          <Sidebar />
+          <Center />
+        </main>
+        <div className="sticky bottom-0">
           <Player />
         </div>
-      </main>
-    </div>
+      </div>
     </>
   )
 }
